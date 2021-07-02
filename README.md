@@ -1,24 +1,31 @@
-# package-<#PACKAGE-NAME>
+# knative-serving-package
 
-This package provides <#PACKAGE> functionality using [<#PACKAGE-NAME>](<#PACKAGE-NAME-DOCS-URL>).
+This package provides knative-serving functionality using [knative-serving](https://knative.dev/).
 
 ## Components
 
-* <#PACKAGE-NAME>
+* knative-serving
+  * knative-net-contour
+  * knative-cert-manager
 
 ## Configuration
 
-The following configuration values can be set to customize the <#PACKAGE-NAME> installation.
+The following configuration values can be set to customize the knative-serving installation.
 
 ### Global
 
 | Value | Required/Optional | Description |
 |-------|-------------------|-------------|
-| `namespace` | Optional | The namespace in which to deploy <#PACKAGE-NAME>. |
+| `namespace` | Optional | The namespace in which to deploy knative-serving. |
+| `domain.type` | Optional | DNS service to use. real means you're integrating with a cloud DNS, in which case you need to provide `domain.name`. Possible values: `real`, `xip.io`, `nip.io`, `sslip.io` (Defaults to: `real`|
+| `domain.name` | Optional | Domain to use for your knative services when using a `real` DNS service. (Defaults to: ` `|
+| `ingress.external.namespace` | Optional | Namespace where the ingress controller for externally exposed services is installed. (Defaults to: `projectcontour`|
+| `ingress.internal.namespace` | Optional | Namespace where the ingress controller for internally exposed services is installed. (Defaults to: `projectcontour`|
+| `tls.certmanager.clusterissuer` | Optional | Configure AutoTLS using the name of this ClusterIssuer. (Defaults to: ` `|
 
 ## Usage Example
 
-This walkthrough guides you through using <#PACKAGE-NAME>...
+This walkthrough guides you through using knative-serving...
 
 ## Develop checklist
 
