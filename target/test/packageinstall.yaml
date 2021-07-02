@@ -1,0 +1,15 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: knative-serving-package
+  namespace: knative-serving-package
+spec:
+  serviceAccountName: knative-serving-sa
+  packageRef:
+    refName: knative-serving.tkgdev.failk8s.com
+    versionSelection:
+      constraints: 0.22.0
+      prereleases: {}
+  values:
+  - secretRef:
+      name: knative-serving-config
