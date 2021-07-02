@@ -4,6 +4,6 @@
         "name": "knative-serving",
         "domain": "tkgdev.failk8s.com",
         "displayName": "KNative Serving",
-        "version": "0.22.0"
+        "version": "0.24.0"
     }
 }

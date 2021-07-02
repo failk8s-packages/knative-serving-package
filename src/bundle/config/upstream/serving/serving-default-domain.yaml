@@ -19,7 +19,7 @@ metadata:
   namespace: knative-serving
   labels:
     app: "default-domain"
-    serving.knative.dev/release: "v0.22.0"
+    serving.knative.dev/release: "v0.24.0"
 spec:
   template:
     metadata:
@@ -33,8 +33,8 @@ spec:
         - name: default-domain
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/default-domain@sha256:ee79c1b6c9e07d6bbdf8ff6a53a30b7c288140c1a253e4e545251fe2e8911d44
-          args: ["-magic-dns=xip.io"]
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/default-domain@sha256:3f48295f29f8112eb5d6558e36230fa3e33ed7ff6a508c09501e5691b95a3332
+          args: ["-magic-dns=sslip.io"]
           ports:
             - name: http
               containerPort: 8080
@@ -64,7 +64,7 @@ metadata:
   namespace: knative-serving
   labels:
     app: default-domain
-    serving.knative.dev/release: "v0.22.0"
+    serving.knative.dev/release: "v0.24.0"
 spec:
   selector:
     app: default-domain
