@@ -1,9 +1,9 @@
 {
     "registry": "quay.io/failk8s",
     "package": {
-        "name": "<PACKAGE-NAME>",
+        "name": "knative-serving",
         "domain": "tkgdev.failk8s.com",
-        "displayName": "<DISPLAY NAME>",
-        "version": "<VERSION>"
+        "displayName": "KNative Serving",
+        "version": "0.22.0"
     }
 }
