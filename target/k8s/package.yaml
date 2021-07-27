@@ -1,16 +1,16 @@
 apiVersion: data.packaging.carvel.dev/v1alpha1
 kind: Package
 metadata:
-  name: knative-serving.tkgdev.failk8s.com.0.24.0
+  name: knative-serving.tkgdev.failk8s.com.develop
   namespace: kapp-controller-packaging-global
 spec:
   refName: knative-serving.tkgdev.failk8s.com
-  version: 0.24.0
+  version: develop
   template:
     spec:
       fetch:
       - imgpkgBundle:
-          image: quay.io/failk8s/knative-serving-package:0.24.0
+          image: quay.io/failk8s/knative-serving-package:develop
       template:
       - ytt:
           paths:

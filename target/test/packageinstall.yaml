@@ -8,7 +8,7 @@ spec:
   packageRef:
     refName: knative-serving.tkgdev.failk8s.com
     versionSelection:
-      constraints: 0.24.0
+      constraints: develop
       prereleases: {}
   values:
   - secretRef:
