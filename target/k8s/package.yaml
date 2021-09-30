@@ -1,16 +1,27 @@
+---
 apiVersion: data.packaging.carvel.dev/v1alpha1
 kind: Package
 metadata:
-  name: knative-serving.tkgdev.failk8s.com.0.24.0
+  annotations:
+    kbld.k14s.io/images: |
+      - origins:
+        - resolved:
+            tag: 0.26.0
+            url: quay.io/failk8s/knative-serving-package:0.26.0
+        url: quay.io/failk8s/knative-serving-package@sha256:47ba7c83a20bf00d7909c9e82bfaa331ce75aaeea9d4d98a8bc20d182681db37
+  name: knative-serving.dev.failk8s.com.0.26.0
   namespace: kapp-controller-packaging-global
 spec:
-  refName: knative-serving.tkgdev.failk8s.com
-  version: 0.24.0
+  refName: knative-serving.dev.failk8s.com
   template:
     spec:
+      deploy:
+      - kapp:
+          rawOptions:
+          - --wait-timeout=5m
       fetch:
       - imgpkgBundle:
-          image: quay.io/failk8s/knative-serving-package:0.24.0
+          image: quay.io/failk8s/knative-serving-package@sha256:47ba7c83a20bf00d7909c9e82bfaa331ce75aaeea9d4d98a8bc20d182681db37
       template:
       - ytt:
           paths:
@@ -19,7 +30,4 @@ spec:
           paths:
           - '-'
           - .imgpkg/images.yml
-      deploy:
-      - kapp:
-          rawOptions:
-          - --wait-timeout=5m
+  version: 0.26.0
