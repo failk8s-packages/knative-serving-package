@@ -4,7 +4,7 @@
         "name": "knative-serving",
         "domain": "dev.failk8s.com",
         "displayName": "KNative Serving",
-        "version": "develop"
+        "version": "0.26.0"
     },
     "packages": []
 }
