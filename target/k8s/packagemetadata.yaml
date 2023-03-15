@@ -1,7 +1,0 @@
-apiVersion: data.packaging.carvel.dev/v1alpha1
-kind: PackageMetadata
-metadata:
-  name: knative-serving.dev.failk8s.com
-  namespace: kapp-controller-packaging-global
-spec:
-  displayName: KNative Serving

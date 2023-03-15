@@ -18,7 +18,9 @@ metadata:
   # These are the permissions needed by the `cert-manager` `Certificate` implementation.
   name: knative-serving-certmanager
   labels:
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     serving.knative.dev/controller: "true"
     networking.knative.dev/certificate-provider: cert-manager
 rules:
@@ -49,7 +51,9 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: config.webhook.net-certmanager.networking.internal.knative.dev
   labels:
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     networking.knative.dev/certificate-provider: cert-manager
 webhooks:
   - admissionReviewVersions:
@@ -62,10 +66,10 @@ webhooks:
     failurePolicy: Fail
     sideEffects: None
     name: config.webhook.net-certmanager.networking.internal.knative.dev
-    namespaceSelector:
-      matchExpressions:
-        - key: serving.knative.dev/release
-          operator: Exists
+    objectSelector:
+      matchLabels:
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/component: net-certmanager
 
 ---
 # Copyright 2020 The Knative Authors
@@ -88,7 +92,9 @@ metadata:
   name: net-certmanager-webhook-certs
   namespace: knative-serving
   labels:
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     networking.knative.dev/certificate-provider: cert-manager
 
 ---
@@ -112,7 +118,9 @@ metadata:
   name: config-certmanager
   namespace: knative-serving
   labels:
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     networking.knative.dev/certificate-provider: cert-manager
 data:
   _example: |
@@ -132,7 +140,7 @@ data:
 
     # issuerRef is a reference to the issuer for this certificate.
     # IssuerRef should be either `ClusterIssuer` or `Issuer`.
-    # Please refer `IssuerRef` in https://github.com/jetstack/cert-manager/blob/master/pkg/apis/certmanager/v1alpha1/types_certificate.go
+    # Please refer `IssuerRef` in https://github.com/cert-manager/cert-manager/tree/master/pkg/apis/certmanager/v1/types_certificate.go
     # for more details about IssuerRef configuration.
     issuerRef: |
       kind: ClusterIssuer
@@ -159,7 +167,9 @@ metadata:
   name: net-certmanager-controller
   namespace: knative-serving
   labels:
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     networking.knative.dev/certificate-provider: cert-manager
 spec:
   selector:
@@ -171,14 +181,16 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
         app: net-certmanager-controller
-        serving.knative.dev/release: "v0.26.0"
+        app.kubernetes.io/component: net-certmanager
+        app.kubernetes.io/version: "1.9.2"
+        app.kubernetes.io/name: knative-serving
     spec:
       serviceAccountName: controller
       containers:
         - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/controller@sha256:28178bcf4c5df95f4bba3ae465c74161e1de495a1ca90cd117819d893ab97726
+          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/controller@sha256:c587b9701a8d6fd9b77dca33643f463a4ff6fb1bf6efc13a647959b07936cef7
           resources:
             requests:
               cpu: 30m
@@ -204,7 +216,7 @@ spec:
             runAsNonRoot: true
             capabilities:
               drop:
-                - all
+                - ALL
           ports:
             - name: metrics
               containerPort: 9090
@@ -216,7 +228,9 @@ kind: Service
 metadata:
   labels:
     app: net-certmanager-controller
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     networking.knative.dev/certificate-provider: cert-manager
   name: net-certmanager-controller
   namespace: knative-serving
@@ -253,7 +267,9 @@ metadata:
   name: net-certmanager-webhook
   namespace: knative-serving
   labels:
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     networking.knative.dev/certificate-provider: cert-manager
 spec:
   selector:
@@ -266,15 +282,17 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
       labels:
         app: net-certmanager-webhook
+        app.kubernetes.io/component: net-certmanager
+        app.kubernetes.io/version: "1.9.2"
+        app.kubernetes.io/name: knative-serving
         role: net-certmanager-webhook
-        serving.knative.dev/release: "v0.26.0"
     spec:
       serviceAccountName: controller
       containers:
         - name: webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/webhook@sha256:180dd44f3d89efc374dcd0b12e0046c2eb793df8cd6c8544a9cc1e16c9331dfc
+          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/webhook@sha256:cd7c1782ff9d4acc59a54626bb824a0706271dd5be7c908e3aff3102af649561
           resources:
             requests:
               cpu: 20m
@@ -296,13 +314,17 @@ spec:
               value: knative.dev/net-certmanager
             - name: WEBHOOK_NAME
               value: net-certmanager-webhook
+            # If you change WEBHOOK_PORT, you will also need to change the
+            # containerPort "https-webhook" to the same value.
+            - name: WEBHOOK_PORT
+              value: "8443"
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             capabilities:
               drop:
-                - all
+                - ALL
           ports:
             - name: metrics
               containerPort: 9090
@@ -333,20 +355,22 @@ metadata:
   namespace: knative-serving
   labels:
     role: net-certmanager-webhook
-    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/component: net-certmanager
+    app.kubernetes.io/version: "1.9.2"
+    app.kubernetes.io/name: knative-serving
     networking.knative.dev/certificate-provider: cert-manager
 spec:
   ports:
     # Define metrics and profiling for them to be accessible within service meshes.
     - name: http-metrics
       port: 9090
-      targetPort: 9090
+      targetPort: metrics
     - name: http-profiling
       port: 8008
-      targetPort: 8008
+      targetPort: profiling
     - name: https-webhook
       port: 443
-      targetPort: 8443
+      targetPort: https-webhook
   selector:
     app: net-certmanager-webhook
 

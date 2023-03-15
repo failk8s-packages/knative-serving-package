@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: knative-serving
-  namespace: knative-serving-package
-stringData:
-  values.yml: null
